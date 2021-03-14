@@ -23,7 +23,6 @@ export function importPublicKey(pem: string) {
   // convert from a binary string to an ArrayBuffer
   const binaryDer = str2ab(binaryDerString);
   //   const binaryDer = encodeBufferSource(binaryDerString);
-  console.log({ binaryDer, hoge: encodeStrToBufferSource(binaryDerString) });
 
   return crypto.subtle.importKey(
     "spki",
@@ -45,6 +44,30 @@ export function encodeStrToBufferSource(str: string) {
 export function decodeArrayBufferToString(buf: ArrayBuffer) {
   const dec = new TextDecoder();
   return dec.decode(buf);
+}
+
+export async function importPrivateKey(pkcs8Pem: string) {
+  return await crypto.subtle.importKey(
+    "pkcs8",
+    getPkcs8Der(pkcs8Pem),
+    {
+      name: "RSA-OAEP",
+      hash: "SHA-256",
+    },
+    true,
+    ["decrypt"]
+  );
+}
+
+function getPkcs8Der(pkcs8Pem: string) {
+  const pemHeader = "-----BEGIN PRIVATE KEY-----";
+  const pemFooter = "-----END PRIVATE KEY-----";
+  var pemContents = pkcs8Pem.substring(
+    pemHeader.length,
+    pkcs8Pem.length - pemFooter.length
+  );
+  var binaryDerString = atob(pemContents);
+  return str2ab(binaryDerString);
 }
 
 // export function ab2str(buf: any) {
