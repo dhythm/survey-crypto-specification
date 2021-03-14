@@ -9,6 +9,7 @@ const PUBLIC_OPENING_BOUNDARY = "-----BEGIN PUBLIC KEY-----";
 const PUBLIC_CLOSING_BOUNDARY = "-----END PUBLIC KEY-----";
 
 function App() {
+  const [encodedText, setEncodedText] = React.useState("");
   React.useEffect(() => {
     const _f = async () => {
       const pubKey = await importPublicKey(
@@ -24,9 +25,18 @@ function App() {
       );
       const encoded = Buffer.from(encrypted).toString("base64");
       console.log({ encoded });
+      setEncodedText(encoded);
     };
     _f();
   }, []);
+
+  // @ts-ignore
+  const listener = (e) => {
+    e.preventDefault();
+    e.clipboardData.setData("text/plain", encodedText);
+    document.removeEventListener("copy", listener);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -42,6 +52,24 @@ function App() {
         >
           Learn React
         </a>
+        <button
+          onClick={async () => {
+            document.addEventListener("copy", listener);
+            document.execCommand("copy");
+          }}
+        >
+          copy
+        </button>
+        <p
+          style={{
+            width: "80vw",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {encodedText}
+        </p>
       </header>
     </div>
   );

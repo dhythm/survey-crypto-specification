@@ -26,9 +26,6 @@ function str2ab(str: string) {
   return buf;
 }
 
-const data = encrypt(
-  key.replace(/\\n/gm, ""),
-  Buffer.from("password1", "utf-8")
-);
+const data = encrypt(key, Buffer.from("password1", "utf-8"));
 
 console.log({ data: Buffer.from(data).toString("base64") });
