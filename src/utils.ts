@@ -34,3 +34,8 @@ export function importPublicKey(pem: string) {
     ["encrypt"]
   );
 }
+
+export function encodeBufferSource(str: string) {
+  const enc = new TextEncoder();
+  return enc.encode(str);
+}

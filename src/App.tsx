@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { key } from "./credentials";
 import logo from "./logo.svg";
-import { importPublicKey, str2ab } from "./utils";
+import { encodeBufferSource, importPublicKey } from "./utils";
 
 const PUBLIC_OPENING_BOUNDARY = "-----BEGIN PUBLIC KEY-----";
 const PUBLIC_CLOSING_BOUNDARY = "-----END PUBLIC KEY-----";
@@ -19,7 +19,7 @@ function App() {
       const encrypted = await crypto.subtle.encrypt(
         { name: "RSA-OAEP" },
         pubKey,
-        str2ab("password1")
+        encodeBufferSource("password1")
       );
       const encoded = Buffer.from(encrypted).toString("base64");
       console.log({ encoded });
