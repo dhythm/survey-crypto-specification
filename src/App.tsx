@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import React from "react";
 import "./App.css";
 import { key } from "./credentials";
@@ -13,8 +14,8 @@ function App() {
       const pubKey = await importPublicKey(
         key
           .replaceAll(/\n/gm, "")
-          .replaceAll(PUBLIC_OPENING_BOUNDARY, `${PUBLIC_OPENING_BOUNDARY}\n`)
-          .replaceAll(PUBLIC_CLOSING_BOUNDARY, `\n${PUBLIC_CLOSING_BOUNDARY}`)
+          .replace(PUBLIC_OPENING_BOUNDARY, `${PUBLIC_OPENING_BOUNDARY}\n`)
+          .replace(PUBLIC_CLOSING_BOUNDARY, `\n${PUBLIC_CLOSING_BOUNDARY}`)
       );
       const encrypted = await crypto.subtle.encrypt(
         { name: "RSA-OAEP" },

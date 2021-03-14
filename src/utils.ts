@@ -22,6 +22,7 @@ export function importPublicKey(pem: string) {
   const binaryDerString = atob(pemContents);
   // convert from a binary string to an ArrayBuffer
   const binaryDer = str2ab(binaryDerString);
+  //   const binaryDer = encodeBufferSource(binaryDerString);
 
   return crypto.subtle.importKey(
     "spki",
