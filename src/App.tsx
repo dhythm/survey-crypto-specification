@@ -1,7 +1,7 @@
 import { Buffer } from "buffer";
 import React from "react";
 import "./App.css";
-import { privateKey, publicKey } from "./credentials";
+import { privateKey, publicKey } from "./key";
 import logo from "./logo.svg";
 import {
   encodeStrToBufferSource,
