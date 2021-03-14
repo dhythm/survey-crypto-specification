@@ -1,6 +1,6 @@
 // import constants from "constants";
 import crypto from "crypto";
-import { key, privateKey, publicKey } from "../credentials/key";
+import { privateKey, publicKey } from "./key";
 const constants = require("constants");
 
 function encrypt(key: string, data: NodeJS.ArrayBufferView) {
@@ -30,12 +30,12 @@ function str2ab(str: string) {
   return buf;
 }
 
-const data = encrypt(key, Buffer.from("password1", "utf-8"));
+// const data = encrypt(key, Buffer.from("password1", "utf-8"));
 const encrypted = encrypt(publicKey, Buffer.from("password1", "utf-8"));
 const decrypted = decrypt(privateKey, encrypted);
 
 console.log({
-  data: Buffer.from(data).toString("base64"),
+  //   data: Buffer.from(data).toString("base64"),
   encrypted: Buffer.from(encrypted).toString("base64"),
   decrypted: Buffer.from(decrypted).toString("utf-8"),
   decryptedFromBase64Str: Buffer.from(
