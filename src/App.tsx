@@ -3,7 +3,7 @@ import React from "react";
 import "./App.css";
 import { key } from "./credentials";
 import logo from "./logo.svg";
-import { encodeBufferSource, importPublicKey } from "./utils";
+import { encodeStrToBufferSource, importPublicKey } from "./utils";
 
 const PUBLIC_OPENING_BOUNDARY = "-----BEGIN PUBLIC KEY-----";
 const PUBLIC_CLOSING_BOUNDARY = "-----END PUBLIC KEY-----";
@@ -21,10 +21,18 @@ function App() {
       const encrypted = await crypto.subtle.encrypt(
         { name: "RSA-OAEP" },
         pubKey,
-        encodeBufferSource("password1")
+        encodeStrToBufferSource("password1")
       );
       const encoded = Buffer.from(encrypted).toString("base64");
-      console.log({ encoded });
+      // The following expression is same as encoded the above.
+      const ctArray = Array.from(new Uint8Array(encrypted)); // ciphertext as byte array
+      const ctStr = ctArray.map((byte) => String.fromCharCode(byte)).join(""); // ciphertext as string
+      const ctBase64 = btoa(ctStr);
+      console.log({
+        encrypted,
+        encoded,
+        expression: encoded === ctBase64,
+      });
       setEncodedText(encoded);
     };
     _f();

@@ -23,6 +23,7 @@ export function importPublicKey(pem: string) {
   // convert from a binary string to an ArrayBuffer
   const binaryDer = str2ab(binaryDerString);
   //   const binaryDer = encodeBufferSource(binaryDerString);
+  console.log({ binaryDer, hoge: encodeStrToBufferSource(binaryDerString) });
 
   return crypto.subtle.importKey(
     "spki",
@@ -36,7 +37,25 @@ export function importPublicKey(pem: string) {
   );
 }
 
-export function encodeBufferSource(str: string) {
+export function encodeStrToBufferSource(str: string) {
   const enc = new TextEncoder();
   return enc.encode(str);
+}
+
+export function decodeArrayBufferToString(buf: ArrayBuffer) {
+  const dec = new TextDecoder();
+  return dec.decode(buf);
+}
+
+// export function ab2str(buf: any) {
+//   return String.fromCharCode.apply(null, new Uint16Array(buf) as number[]);
+// }
+
+export function str2abU16(str: string) {
+  let buf = new ArrayBuffer(str.length * 2);
+  let bufView = new Uint16Array(buf);
+  for (let i = 0, strLen = str.length; i < strLen; i++) {
+    bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
 }
