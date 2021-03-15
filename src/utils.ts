@@ -31,6 +31,12 @@ export function importPublicKey(pem: string) {
       name: "RSA-OAEP",
       hash: "SHA-256",
     },
+    // {
+    //   name: "RSA-OAEP",
+    //   modulusLength: 2048,
+    //   publicExponent: new Uint8Array([1, 0, 1]),
+    //   hash: { name: "SHA-256" },
+    // } as any,
     true,
     ["encrypt"]
   );
